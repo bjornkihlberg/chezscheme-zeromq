@@ -193,10 +193,19 @@
           ZMQ_PROTOCOL_ERROR_ZAP_BAD_VERSION
           ZMQ_PROTOCOL_ERROR_ZAP_INVALID_STATUS_CODE
           ZMQ_PROTOCOL_ERROR_ZAP_INVALID_METADATA
-          ZMQ_PROTOCOL_ERROR_WS_UNSPECIFIED)
+          ZMQ_PROTOCOL_ERROR_WS_UNSPECIFIED
+          zmq_ctx_new
+          zmq_socket
+          zmq_bind
+          zmq_recv
+          zmq_send
+          zmq_connect
+          zmq_close
+          zmq_ctx_destroy)
 
   (import (chezscheme))
 
+  ; ZeroMQ constants (more can be found here: https://github.com/zeromq/libzmq/blob/master/include/zmq.h)
   ; Socket types
   (define ZMQ_PAIR 0)
   (define ZMQ_PUB 1)
@@ -353,4 +362,16 @@
   (define ZMQ_PROTOCOL_ERROR_ZAP_BAD_VERSION #x20000003)
   (define ZMQ_PROTOCOL_ERROR_ZAP_INVALID_STATUS_CODE #x20000004)
   (define ZMQ_PROTOCOL_ERROR_ZAP_INVALID_METADATA #x20000005)
-  (define ZMQ_PROTOCOL_ERROR_WS_UNSPECIFIED #x30000000))
+  (define ZMQ_PROTOCOL_ERROR_WS_UNSPECIFIED #x30000000)
+
+  (define-ftype zqm_ctx* uptr)
+  (define-ftype zqm_socket* uptr)
+
+  (define zmq_ctx_new (foreign-procedure "zmq_ctx_new" () zqm_ctx*))
+  (define zmq_socket (foreign-procedure "zmq_socket" (zqm_ctx* int) zqm_socket*))
+  (define zmq_bind (foreign-procedure "zmq_bind" (zqm_socket* string) int))
+  (define zmq_recv (foreign-procedure "zmq_recv" (zqm_socket* uptr size_t int) int))
+  (define zmq_send (foreign-procedure "zmq_send" (zqm_socket* uptr size_t int) int))
+  (define zmq_connect (foreign-procedure "zmq_connect" (zqm_socket* string) int))
+  (define zmq_close (foreign-procedure "zmq_close" (zqm_socket*) int))
+  (define zmq_ctx_destroy (foreign-procedure "zmq_ctx_destroy" (zqm_ctx*) int)))
