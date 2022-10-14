@@ -195,7 +195,7 @@
           ZMQ_PROTOCOL_ERROR_ZAP_INVALID_METADATA
           ZMQ_PROTOCOL_ERROR_WS_UNSPECIFIED)
 
-  (chezscheme)
+  (import (chezscheme))
 
   ; Socket types
   (define ZMQ_PAIR 0)
